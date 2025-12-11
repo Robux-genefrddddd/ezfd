@@ -32,8 +32,13 @@ export function DashboardSidebar({
   userName,
   userEmail,
   theme,
+  userPlan,
+  onUpgradeClick,
 }: DashboardSidebarProps) {
   const colors = getThemeColors(theme);
+  const storageLimitMB = userPlan ? userPlan.storageLimit / (1024 * 1024) : 100;
+  const storageUsedMB = userPlan ? userPlan.storageUsed / (1024 * 1024) : 0;
+  const storagePercentage = userPlan ? (userPlan.storageUsed / userPlan.storageLimit) * 100 : 0;
 
   const handleLogout = async () => {
     try {
