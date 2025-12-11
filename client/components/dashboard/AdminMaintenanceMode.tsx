@@ -264,7 +264,7 @@ export function AdminMaintenanceMode({
                 padding: "2px 6px",
                 borderRadius: "4px",
                 fontFamily: "monospace"
-              }}>Ctrl+F1</kbd> to access the admin panel without seeing the maintenance screen.
+              }}>F12</kbd> to access the admin panel without seeing the maintenance screen.
             </p>
           </div>
         </div>
