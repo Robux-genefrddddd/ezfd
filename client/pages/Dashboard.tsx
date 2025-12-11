@@ -352,6 +352,17 @@ export default function Dashboard() {
           )}
         </div>
       </main>
+
+      {/* Upload Modal */}
+      <UploadModal
+        isOpen={uploadModalOpen}
+        fileName={uploadFileName}
+        progress={uploadProgress}
+        stage={uploadStage}
+        error={uploadError || undefined}
+        onClose={handleCloseUploadModal}
+        theme={theme}
+      />
     </div>
   );
 }
