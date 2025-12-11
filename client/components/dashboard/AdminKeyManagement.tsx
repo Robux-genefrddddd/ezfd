@@ -118,7 +118,7 @@ export function AdminKeyManagement({
             className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
             style={{
               backgroundColor: colors.accent,
-              color: colors.accentForeground,
+              color: "#FFFFFF",
             }}
           >
             <Plus className="w-4 h-4" />
