@@ -47,16 +47,12 @@ export function DashboardSidebar({
         to="/"
         className="flex items-center gap-3 mb-10 hover:opacity-80 transition-opacity"
       >
-        <div
-          className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg"
-          style={{
-            backgroundColor: theme === "dark" ? "#1A2647" : "#DBEAFE",
-            color: theme === "dark" ? "#60A5FA" : "#1E40AF",
-          }}
-        >
-          📦
-        </div>
-        <span className="text-lg font-bold">FileShare</span>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2F91e2732f1c03487e879c66ee97e72712%2Fee08390eccc04e8dbea3ce5415d97e92?format=webp&width=800"
+          alt="PinPinCloud"
+          className="w-8 h-8"
+        />
+        <span className="text-lg font-bold">PinPinCloud</span>
       </Link>
 
       {/* Navigation */}
