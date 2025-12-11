@@ -157,12 +157,14 @@ export default function Index() {
       }}
     >
       <style>{`
-        @keyframes sheenDiagonal {
+        @keyframes sheenSlant {
           0% {
-            left: -10%;
+            left: -100%;
+            top: 0;
           }
           100% {
-            left: 110%;
+            left: 100%;
+            top: 0;
           }
         }
 
@@ -175,20 +177,16 @@ export default function Index() {
           content: '';
           position: absolute;
           top: 0;
-          left: -10%;
+          left: -100%;
           width: 8%;
           height: 100%;
           background: linear-gradient(
-            90deg,
+            135deg,
             transparent,
             rgba(255, 255, 255, 0.25),
             transparent
           );
-          animation: sheenDiagonal 2.5s infinite;
-        }
-
-        .sheen-button:hover::after {
-          animation: sheenDiagonal 0.7s infinite;
+          animation: sheenSlant 3s ease-in-out infinite;
         }
 
         .sheen-button > * {
