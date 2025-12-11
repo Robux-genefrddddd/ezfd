@@ -4,6 +4,7 @@ import { FilesList } from "@/components/dashboard/FilesList";
 import { UserManagement } from "@/components/dashboard/UserManagement";
 import { ThemeSelector } from "@/components/dashboard/ThemeSelector";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
+import { UploadModal, MAX_FILE_SIZE } from "@/components/dashboard/UploadModal";
 import { auth, db, storage } from "@/lib/firebase";
 import {
   collection,
@@ -47,6 +48,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [theme, setTheme] = useState("dark");
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStage, setUploadStage] = useState<"validating" | "uploading" | "processing" | "complete" | "error">("validating");
+  const [uploadFileName, setUploadFileName] = useState("");
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (auth.currentUser) {
