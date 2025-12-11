@@ -117,8 +117,6 @@ export function PlanUpgradeModal({
       {showConfetti && (
         <Confetti
           particleCount={50}
-          spread={360}
-          y={-10}
         />
       )}
       
