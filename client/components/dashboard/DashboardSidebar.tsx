@@ -38,7 +38,9 @@ export function DashboardSidebar({
   const colors = getThemeColors(theme);
   const storageLimitMB = userPlan ? userPlan.storageLimit / (1024 * 1024) : 100;
   const storageUsedMB = userPlan ? userPlan.storageUsed / (1024 * 1024) : 0;
-  const storagePercentage = userPlan ? (userPlan.storageUsed / userPlan.storageLimit) * 100 : 0;
+  const storagePercentage = userPlan
+    ? (userPlan.storageUsed / userPlan.storageLimit) * 100
+    : 0;
 
   const handleLogout = async () => {
     try {
@@ -138,8 +140,7 @@ export function DashboardSidebar({
                 userPlan.type === "premium"
                   ? "rgba(34, 197, 94, 0.1)"
                   : "rgba(59, 130, 246, 0.1)",
-              color:
-                userPlan.type === "premium" ? "#22C55E" : colors.primary,
+              color: userPlan.type === "premium" ? "#22C55E" : colors.primary,
             }}
           >
             {userPlan.type === "premium" ? "✓ Premium" : "Free Plan"}

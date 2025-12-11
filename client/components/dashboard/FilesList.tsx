@@ -67,7 +67,9 @@ export function FilesList({
       }, 100);
     } catch (error) {
       console.error("Error downloading file:", error);
-      alert(`Failed to download file: ${error instanceof Error ? error.message : "Unknown error"}`);
+      alert(
+        `Failed to download file: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     } finally {
       setDownloadingId(null);
     }

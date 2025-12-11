@@ -114,12 +114,8 @@ export function PlanUpgradeModal({
         backdropFilter: "blur(4px)",
       }}
     >
-      {showConfetti && (
-        <Confetti
-          particleCount={50}
-        />
-      )}
-      
+      {showConfetti && <Confetti particleCount={50} />}
+
       <div
         className="w-full max-w-md rounded-xl border shadow-2xl"
         style={{
@@ -159,7 +155,8 @@ export function PlanUpgradeModal({
                     color: colors.textSecondary,
                   }}
                 >
-                  Enter your premium activation key to unlock unlimited storage and advanced features.
+                  Enter your premium activation key to unlock unlimited storage
+                  and advanced features.
                 </p>
               </div>
 
@@ -200,10 +197,16 @@ export function PlanUpgradeModal({
               )}
 
               <div className="space-y-3">
-                <h3 className="font-semibold text-sm" style={{ color: colors.text }}>
+                <h3
+                  className="font-semibold text-sm"
+                  style={{ color: colors.text }}
+                >
                   Premium Benefits:
                 </h3>
-                <ul className="space-y-2 text-sm" style={{ color: colors.textSecondary }}>
+                <ul
+                  className="space-y-2 text-sm"
+                  style={{ color: colors.textSecondary }}
+                >
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>1 GB Storage (vs 100 MB free)</span>

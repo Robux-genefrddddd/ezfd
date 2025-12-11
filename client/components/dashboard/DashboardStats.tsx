@@ -1,5 +1,18 @@
 import { getThemeColors } from "@/lib/theme-colors";
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { FileIcon, Share2, HardDrive, Upload } from "lucide-react";
 
 interface DashboardStatsProps {
@@ -18,11 +31,7 @@ interface DashboardStatsProps {
   };
 }
 
-export function DashboardStats({
-  files,
-  theme,
-  plan,
-}: DashboardStatsProps) {
+export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
   const colors = getThemeColors(theme);
 
   // Calculate stats
@@ -165,7 +174,10 @@ export function DashboardStats({
                 backgroundColor: colors.accentLight,
               }}
             >
-              <HardDrive className="w-6 h-6" style={{ color: colors.primary }} />
+              <HardDrive
+                className="w-6 h-6"
+                style={{ color: colors.primary }}
+              />
             </div>
           </div>
         </div>
@@ -175,11 +187,8 @@ export function DashboardStats({
           className="rounded-lg border p-6 transition-all hover:shadow-lg"
           style={{
             backgroundColor:
-              plan.type === "premium"
-                ? "rgba(34, 197, 94, 0.05)"
-                : colors.card,
-            borderColor:
-              plan.type === "premium" ? "#22C55E" : colors.border,
+              plan.type === "premium" ? "rgba(34, 197, 94, 0.05)" : colors.card,
+            borderColor: plan.type === "premium" ? "#22C55E" : colors.border,
           }}
         >
           <div className="flex items-center justify-between">
@@ -193,8 +202,7 @@ export function DashboardStats({
               <p
                 className="text-3xl font-bold mt-2"
                 style={{
-                  color:
-                    plan.type === "premium" ? "#22C55E" : colors.primary,
+                  color: plan.type === "premium" ? "#22C55E" : colors.primary,
                 }}
               >
                 {plan.type === "premium" ? "Premium" : "Free"}
@@ -212,8 +220,7 @@ export function DashboardStats({
               <Upload
                 className="w-6 h-6"
                 style={{
-                  color:
-                    plan.type === "premium" ? "#22C55E" : colors.primary,
+                  color: plan.type === "premium" ? "#22C55E" : colors.primary,
                 }}
               />
             </div>
@@ -327,10 +334,7 @@ export function DashboardStats({
                 backgroundColor: colors.accentLight,
               }}
             >
-              <div
-                className="text-2xl font-bold"
-                style={{ color: item.color }}
-              >
+              <div className="text-2xl font-bold" style={{ color: item.color }}>
                 {item.count}
               </div>
               <p

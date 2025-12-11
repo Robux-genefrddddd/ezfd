@@ -124,6 +124,7 @@ The application enforces storage limits:
 - **Premium Plan**: 1 GB per user
 
 The `PlanStatus` component displays:
+
 - Current storage used (calculated from uploaded files)
 - Storage limit
 - Visual progress bar
@@ -146,15 +147,18 @@ User plans are stored in Firestore under the `userPlans` collection:
 ## Troubleshooting
 
 ### Key Not Found:
+
 - Ensure the key exists in the `premiumKeys` Firestore collection
 - Check for typos in the key format
 
 ### Key Already Used:
+
 - Each key can only be used once
 - The `used` field will be set to `true` after first use
 - Create a new key for another user
 
 ### Storage Limit Issues:
+
 - Free plan: 100 MB (102,400 KB)
 - Premium plan: 1 GB (1,048,576 KB)
 - The app calculates size from file metadata in Firestore
@@ -170,6 +174,7 @@ User plans are stored in Firestore under the `userPlans` collection:
 ## Support
 
 For more information about the plan system implementation, see:
+
 - `client/pages/Dashboard.tsx` - Plan loading and management
 - `client/components/dashboard/PlanUpgradeModal.tsx` - Key validation UI
 - `client/components/dashboard/PlanStatus.tsx` - Plan display component
