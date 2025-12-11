@@ -84,7 +84,8 @@ export default function Dashboard() {
 
         // Load user plan
         try {
-          const planDoc = await getDoc(doc(db, "userPlans", user.uid));
+          const planRef = doc(db, "userPlans", user.uid);
+          const planDoc = await getDoc(planRef);
           if (planDoc.exists()) {
             setUserPlan(planDoc.data() as UserPlan);
           } else {
@@ -94,14 +95,7 @@ export default function Dashboard() {
               storageLimit: 100 * 1024 * 1024,
               storageUsed: 0,
             };
-            await updateDoc(doc(db, "userPlans", user.uid), initialPlan).catch(
-              async () => {
-                await addDoc(collection(db, "userPlans"), {
-                  userId: user.uid,
-                  ...initialPlan,
-                });
-              }
-            );
+            await setDoc(planRef, initialPlan);
             setUserPlan(initialPlan);
           }
         } catch (error) {
