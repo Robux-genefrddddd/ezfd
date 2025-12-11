@@ -287,13 +287,19 @@ export function AdminKeyManagement({
                     className="px-6 py-4 text-left font-semibold"
                     style={{ color: colors.text }}
                   >
+                    Type
+                  </th>
+                  <th
+                    className="px-6 py-4 text-left font-semibold"
+                    style={{ color: colors.text }}
+                  >
                     Status
                   </th>
                   <th
                     className="px-6 py-4 text-left font-semibold"
                     style={{ color: colors.text }}
                   >
-                    Assigned To
+                    Max Emojis
                   </th>
                   <th
                     className="px-6 py-4 text-left font-semibold"
@@ -312,88 +318,145 @@ export function AdminKeyManagement({
                 </tr>
               </thead>
               <tbody>
-                {keys.map((key, idx) => (
-                  <tr
-                    key={key.id}
-                    className="border-b hover:opacity-75 transition-opacity"
-                    style={{
-                      borderBottomColor: colors.border,
-                      backgroundColor:
-                        idx % 2 === 0 ? colors.card : colors.sidebar,
-                    }}
-                  >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <code
-                          className="px-2 py-1 rounded text-xs font-mono"
+                {keys.map((key, idx) => {
+                  const isExpired =
+                    key.expiresAt && new Date(key.expiresAt) < new Date();
+
+                  return (
+                    <tr
+                      key={key.id}
+                      className="border-b hover:opacity-75 transition-opacity"
+                      style={{
+                        borderBottomColor: colors.border,
+                        backgroundColor:
+                          idx % 2 === 0 ? colors.card : colors.sidebar,
+                        opacity: isExpired ? 0.6 : 1,
+                      }}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <code
+                            className="px-2 py-1 rounded text-xs font-mono"
+                            style={{
+                              backgroundColor: colors.sidebar,
+                              color: colors.accent,
+                            }}
+                          >
+                            {key.key.substring(0, 20)}...
+                          </code>
+                          <button
+                            onClick={() => copyToClipboard(key.key, key.id)}
+                            className="p-1 rounded hover:opacity-60 transition-opacity"
+                            title="Copy to clipboard"
+                          >
+                            {copiedId === key.id ? (
+                              <Check
+                                className="w-4 h-4"
+                                style={{ color: "#22C55E" }}
+                              />
+                            ) : (
+                              <Copy
+                                className="w-4 h-4"
+                                style={{ color: colors.textSecondary }}
+                              />
+                            )}
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className="px-2 py-1 rounded text-xs font-medium inline-block"
                           style={{
-                            backgroundColor: colors.sidebar,
-                            color: colors.accent,
+                            backgroundColor:
+                              key.type === "lifetime"
+                                ? "rgba(168, 85, 247, 0.1)"
+                                : "rgba(59, 130, 246, 0.1)",
+                            color:
+                              key.type === "lifetime"
+                                ? "#A855F7"
+                                : colors.primary,
                           }}
                         >
-                          {key.key.substring(0, 20)}...
-                        </code>
-                        <button
-                          onClick={() => copyToClipboard(key.key, key.id)}
-                          className="p-1 rounded hover:opacity-60 transition-opacity"
-                          title="Copy to clipboard"
-                        >
-                          {copiedId === key.id ? (
-                            <Check
-                              className="w-4 h-4"
-                              style={{ color: "#22C55E" }}
-                            />
-                          ) : (
-                            <Copy
-                              className="w-4 h-4"
-                              style={{ color: colors.textSecondary }}
-                            />
-                          )}
-                        </button>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className="px-2 py-1 rounded-full text-xs font-medium"
-                        style={{
-                          backgroundColor:
-                            key.status === "used"
-                              ? "rgba(34, 197, 94, 0.1)"
-                              : "rgba(59, 130, 246, 0.1)",
-                          color:
-                            key.status === "used" ? "#22C55E" : colors.primary,
-                        }}
-                      >
-                        {key.status === "used" ? "✓ Used" : "○ Unused"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p style={{ color: colors.text }}>
-                        {key.assignedEmail || "-"}
-                      </p>
-                    </td>
-                    <td
-                      className="px-6 py-4"
-                      style={{ color: colors.textSecondary }}
-                    >
-                      {key.createdAt}
-                    </td>
-                    {canCreateKeys(userRole) && (
-                      <td className="px-6 py-4">
-                        <button
-                          onClick={() => deleteKey(key.id)}
-                          className="p-2 rounded hover:opacity-60 transition-opacity"
-                          title="Delete key"
-                        >
-                          <Trash2
-                            className="w-4 h-4"
-                            style={{ color: "#EF4444" }}
-                          />
-                        </button>
+                          {key.type}
+                        </span>
                       </td>
-                    )}
-                  </tr>
-                ))}
+                      <td className="px-6 py-4">
+                        <span
+                          className="px-2 py-1 rounded-full text-xs font-medium"
+                          style={{
+                            backgroundColor:
+                              key.status === "used"
+                                ? "rgba(34, 197, 94, 0.1)"
+                                : "rgba(59, 130, 246, 0.1)",
+                            color:
+                              key.status === "used" ? "#22C55E" : colors.primary,
+                          }}
+                        >
+                          {key.status === "used" ? "✓ Used" : "○ Unused"}
+                        </span>
+                        {isExpired && (
+                          <span
+                            className="ml-2 px-2 py-1 rounded text-xs font-medium"
+                            style={{
+                              backgroundColor: "rgba(239, 68, 68, 0.1)",
+                              color: "#EF4444",
+                            }}
+                          >
+                            Expired
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4" style={{ color: colors.text }}>
+                        {key.maxEmojis || "-"}
+                      </td>
+                      <td
+                        className="px-6 py-4"
+                        style={{ color: colors.textSecondary }}
+                      >
+                        {new Date(key.createdAt).toLocaleDateString()}
+                      </td>
+                      {canCreateKeys(userRole) && (
+                        <td className="px-6 py-4">
+                          {deleteConfirm === key.id ? (
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => deleteKey(key.id, key)}
+                                className="px-2 py-1 rounded text-xs font-medium transition-opacity hover:opacity-80"
+                                style={{
+                                  backgroundColor: "rgba(239, 68, 68, 0.2)",
+                                  color: "#EF4444",
+                                }}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                onClick={() => setDeleteConfirm(null)}
+                                className="px-2 py-1 rounded text-xs font-medium transition-opacity hover:opacity-80"
+                                style={{
+                                  backgroundColor: colors.sidebar,
+                                  color: colors.textSecondary,
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setDeleteConfirm(key.id)}
+                              className="p-2 rounded hover:opacity-60 transition-opacity"
+                              title="Delete key"
+                            >
+                              <Trash2
+                                className="w-4 h-4"
+                                style={{ color: "#EF4444" }}
+                              />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
