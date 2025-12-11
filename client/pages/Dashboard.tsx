@@ -20,6 +20,7 @@ import {
   query,
   where,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
