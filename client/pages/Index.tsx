@@ -12,9 +12,12 @@ export default function Index() {
             <a href="#features" className="text-gray-600 hover:text-gray-900 transition">
               Features
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition">
+            <Link
+              to="/dashboard"
+              className="text-gray-600 hover:text-gray-900 transition"
+            >
               Pricing
-            </a>
+            </Link>
             <a href="#" className="text-gray-600 hover:text-gray-900 transition">
               Docs
             </a>
