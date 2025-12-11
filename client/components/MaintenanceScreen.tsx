@@ -4,14 +4,17 @@ import { getThemeColors } from "@/lib/theme-colors";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getUserRole } from "@/lib/auth-utils";
+import { MaintenanceModal } from "@/components/maintenance/MaintenanceModal";
+import { MaintenanceBanner } from "@/components/maintenance/MaintenanceBanner";
 
 const ADMIN_BYPASS_KEY = "F12";
 
 export function MaintenanceScreen() {
-  const { isMaintenanceEnabled, maintenanceMessage } = useMaintenanceMode();
+  const { isMaintenanceEnabled, maintenanceMessage, maintenanceMode } = useMaintenanceMode();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [dismissedModal, setDismissedModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
