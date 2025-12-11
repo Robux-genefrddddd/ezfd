@@ -162,7 +162,7 @@ export default function ActivatePlanModal({
                   Premium Benefits:
                 </p>
                 <ul className="space-y-1" style={{ color: colors.textMuted }}>
-                  <li>✓ 5GB Storage (vs 100MB Free)</li>
+                  <li>✓ Unlimited Storage (vs 1GB Free)</li>
                   <li>✓ Priority Support</li>
                   <li>✓ Advanced Sharing Options</li>
                 </ul>
