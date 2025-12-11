@@ -372,7 +372,11 @@ export default function Dashboard() {
           {userPlan && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4" style={{ color: colors.primary }} />
+                {userPlan.type === "premium" ? (
+                  <Crown className="w-4 h-4 text-yellow-500" />
+                ) : (
+                  <FolderOpen className="w-4 h-4" style={{ color: colors.primary }} />
+                )}
                 <span className="text-xs font-medium" style={{ color: colors.text }}>
                   {userPlan.type === "premium" ? "Premium Plan" : "Free Plan"}
                 </span>
