@@ -479,6 +479,20 @@ export default function Dashboard() {
                 theme={theme}
               />
 
+              {/* Storage Chart */}
+              <div
+                className="rounded-xl border p-6"
+                style={{
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                }}
+              >
+                <h3 className="text-lg font-bold mb-4" style={{ color: colors.text }}>
+                  Storage Usage Trend
+                </h3>
+                <StorageChart theme={theme} />
+              </div>
+
               {/* Upload Section */}
               <div
                 className="rounded-xl border p-8 text-center transition-all hover:border-opacity-100"
