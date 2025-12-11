@@ -207,6 +207,18 @@ export default function Dashboard() {
         return;
       }
 
+      // Check storage limit
+      const newStorageTotal = userPlan.storageUsed + file.size;
+      if (newStorageTotal > userPlan.storageLimit) {
+        const remainingStorage = (userPlan.storageLimit - userPlan.storageUsed) / (1024 * 1024);
+        setUploadError(
+          `Storage limit exceeded. You have ${remainingStorage.toFixed(1)}MB remaining but this file is ${(file.size / (1024 * 1024)).toFixed(2)}MB`,
+        );
+        setUploadStage("error");
+        setUploading(false);
+        return;
+      }
+
       setUploadProgress(20);
 
       // Stage 2: Upload to storage
