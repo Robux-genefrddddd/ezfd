@@ -17,8 +17,13 @@ export default function Index() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-white">
-            Studio
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2F91e2732f1c03487e879c66ee97e72712%2Fee08390eccc04e8dbea3ce5415d97e92?format=webp&width=800"
+              alt="PinPinCloud"
+              className="w-8 h-8 object-contain"
+            />
+            <span className="text-xl font-bold text-white">PinPinCloud</span>
           </Link>
 
           {/* Mobile menu button */}
@@ -32,16 +37,16 @@ export default function Index() {
           {/* Desktop menu */}
           <div className="hidden md:flex items-center gap-8">
             <a href="#" className="text-white/80 hover:text-white transition">
-              Features
+              Fonctionnalités
             </a>
             <a href="#" className="text-white/80 hover:text-white transition">
-              Pricing
+              Tarification
             </a>
             <Link
               to="/dashboard"
               className="text-white/80 hover:text-white transition"
             >
-              Docs
+              Documentation
             </Link>
           </div>
 
@@ -50,13 +55,13 @@ export default function Index() {
               to="/login"
               className="text-white/80 hover:text-white font-medium transition"
             >
-              Sign In
+              Se connecter
             </Link>
             <Link
               to="/register"
               className="bg-cyan-400 text-blue-900 px-6 py-2 rounded-lg hover:bg-cyan-300 font-medium transition"
             >
-              Get Started
+              Commencer
             </Link>
           </div>
         </div>
@@ -68,32 +73,32 @@ export default function Index() {
               href="#"
               className="block text-white/80 hover:text-white transition"
             >
-              Features
+              Fonctionnalités
             </a>
             <a
               href="#"
               className="block text-white/80 hover:text-white transition"
             >
-              Pricing
+              Tarification
             </a>
             <Link
               to="/dashboard"
               className="block text-white/80 hover:text-white transition"
             >
-              Docs
+              Documentation
             </Link>
             <div className="pt-4 space-y-3 border-t border-white/20">
               <Link
                 to="/login"
                 className="block text-white/80 hover:text-white font-medium transition"
               >
-                Sign In
+                Se connecter
               </Link>
               <Link
                 to="/register"
                 className="block bg-cyan-400 text-blue-900 px-6 py-2 rounded-lg hover:bg-cyan-300 font-medium transition text-center"
               >
-                Get Started
+                Commencer
               </Link>
             </div>
           </div>
@@ -105,46 +110,37 @@ export default function Index() {
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl w-full">
           {/* Left side - Card */}
           <div className="relative z-10">
-            <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl max-w-md mx-auto lg:mx-0">
+            <div className="bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl max-w-md mx-auto lg:mx-0 border border-slate-800">
               {/* Logo */}
               <div className="flex items-center gap-3 mb-8">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F91e2732f1c03487e879c66ee97e72712%2F34cbcd9ce9c34f589a07ada075ea2335?format=webp&width=800"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F91e2732f1c03487e879c66ee97e72712%2Fee08390eccc04e8dbea3ce5415d97e92?format=webp&width=800"
                   alt="PinPinCloud"
                   className="w-10 h-10 object-contain"
                 />
-                <span className="font-bold text-gray-900">PinPinCloud | FREE</span>
+                <span className="font-bold text-white">PinPinCloud</span>
               </div>
 
               {/* Welcome text */}
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome</h2>
-              <p className="text-gray-600 mb-8 text-sm">
-                Build amazing things effortlessly
+              <h2 className="text-3xl font-bold text-white mb-2">Bienvenue</h2>
+              <p className="text-gray-400 mb-8 text-sm">
+                Connectez-vous à votre compte
               </p>
-
-              {/* User avatar */}
-              <div className="flex justify-center mb-8">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F91e2732f1c03487e879c66ee97e72712%2F34cbcd9ce9c34f589a07ada075ea2335?format=webp&width=800"
-                  alt="PinPinCloud"
-                  className="w-16 h-16 object-contain"
-                />
-              </div>
 
               {/* Form fields */}
               <div className="space-y-4 mb-8">
                 <div>
                   <input
                     type="text"
-                    placeholder="USERNAME"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
+                    placeholder="NOM D'UTILISATEUR"
+                    className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
                 <div>
                   <input
                     type="password"
-                    placeholder="PASSWORD"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
+                    placeholder="MOT DE PASSE"
+                    className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
               </div>
@@ -152,27 +148,27 @@ export default function Index() {
               {/* Login button */}
               <Link
                 to="/dashboard"
-                className="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition flex items-center justify-center gap-2 mb-6 group"
+                className="w-full bg-cyan-500 text-slate-900 py-3 rounded-lg font-bold hover:bg-cyan-400 transition flex items-center justify-center gap-2 mb-6 group"
               >
-                LOGIN
+                CONNEXION
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
               </Link>
 
               {/* Footer links */}
               <div className="flex items-center justify-between text-xs text-gray-500">
-                <Link to="/register" className="hover:text-gray-700">
-                  Sign up
+                <Link to="/register" className="hover:text-gray-300">
+                  S'inscrire
                 </Link>
-                <a href="#" className="hover:text-gray-700">
-                  Forgot password?
+                <a href="#" className="hover:text-gray-300">
+                  Mot de passe oublié?
                 </a>
               </div>
 
               {/* Dots indicator */}
-              <div className="flex justify-center gap-2 mt-8 pt-8 border-t border-gray-100">
-                <div className="w-2 h-2 bg-blue-900 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+              <div className="flex justify-center gap-2 mt-8 pt-8 border-t border-slate-800">
+                <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                <div className="w-2 h-2 bg-slate-700 rounded-full"></div>
+                <div className="w-2 h-2 bg-slate-700 rounded-full"></div>
               </div>
             </div>
           </div>
@@ -184,22 +180,21 @@ export default function Index() {
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-300 to-orange-200 rounded-full blur-2xl opacity-50"></div>
               <div className="relative text-white">
                 <h1 className="text-5xl md:text-6xl font-bold mb-4">
-                  Welcome.
+                  Bienvenue.
                 </h1>
               </div>
             </div>
 
             <p className="text-white/80 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
-              A modern platform designed to help teams collaborate, create, and
-              ship faster. Intuitive, powerful, and built for everyone.
+              Une plateforme moderne conçue pour aider les équipes à collaborer, créer et livrer plus rapidement. Intuitive, puissante et construite pour tout le monde.
             </p>
 
             <div className="mt-8">
               <Link
                 to="/register"
-                className="inline-block bg-cyan-400 text-blue-900 px-8 py-3 rounded-lg hover:bg-cyan-300 font-bold transition"
+                className="inline-block bg-cyan-400 text-slate-900 px-8 py-3 rounded-lg hover:bg-cyan-300 font-bold transition"
               >
-                Start Now
+                Commencer Maintenant
               </Link>
             </div>
           </div>
@@ -210,24 +205,24 @@ export default function Index() {
       <div className="relative z-10 px-6 py-20 bg-gradient-to-t from-blue-900/50 to-transparent">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-white text-center mb-12">
-            Everything you need
+            Tout ce qu'il vous faut
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                title: "Lightning Fast",
+                title: "Ultra Rapide",
                 description:
-                  "Experience blazing-fast performance with our optimized infrastructure.",
+                  "Profitez d'une performance ultra-rapide grâce à notre infrastructure optimisée.",
               },
               {
-                title: "Secure & Reliable",
+                title: "Sécurisé et Fiable",
                 description:
-                  "Enterprise-grade security to keep your data safe and protected.",
+                  "Sécurité de classe entreprise pour protéger vos données et votre confidentialité.",
               },
               {
-                title: "Intuitive Design",
+                title: "Conception Intuitive",
                 description:
-                  "Beautiful, user-friendly interface that everyone loves to use.",
+                  "Interface belle et conviviale que tout le monde adore utiliser.",
               },
             ].map((feature, i) => (
               <div
@@ -247,7 +242,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/10 py-8 px-6">
         <div className="max-w-6xl mx-auto text-center text-white/60 text-sm">
-          <p>&copy; 2024 PinPinCloud | FREE. All rights reserved.</p>
+          <p>&copy; 2024 PinPinCloud | FREE. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
