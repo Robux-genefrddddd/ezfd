@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Copy, Trash2, Check } from "lucide-react";
+import { Plus, Copy, Trash2, Check, AlertTriangle } from "lucide-react";
 import { getThemeColors } from "@/lib/theme-colors";
 import {
   collection,
@@ -7,20 +7,15 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  onSnapshot,
   query,
-  where,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { UserRole, canCreateKeys } from "@/lib/auth-utils";
+import { PremiumKeyData } from "@shared/api";
 
-interface PremiumKey {
+interface PremiumKey extends PremiumKeyData {
   id: string;
-  key: string;
-  status: "unused" | "used";
-  assignedTo?: string;
-  assignedEmail?: string;
-  createdAt: string;
-  usedAt?: string;
 }
 
 interface AdminKeyManagementProps {
