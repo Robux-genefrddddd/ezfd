@@ -8,8 +8,10 @@ import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { UploadModal, MAX_FILE_SIZE } from "@/components/dashboard/UploadModal";
 import { PlanUpgradeModal } from "@/components/dashboard/PlanUpgradeModal";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
+import { AdminPanel } from "@/components/dashboard/AdminPanel";
 import { auth, db, storage } from "@/lib/firebase";
 import { getThemeColors, getThemeBackgroundImage } from "@/lib/theme-colors";
+import { getUserRole, UserRole } from "@/lib/auth-utils";
 import {
   collection,
   addDoc,
