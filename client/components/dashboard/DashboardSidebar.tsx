@@ -95,15 +95,11 @@ export function DashboardSidebar({
         }}
       >
         <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-semibold"
-            style={{
-              backgroundColor: colors.primary,
-              color: colors.primaryForeground,
-            }}
-          >
-            {userName.charAt(0).toUpperCase()}
-          </div>
+          <img
+            src="https://marketplace.canva.com/Dz63E/MAF4KJDz63E/1/tl/canva-user-icon-MAF4KJDz63E.png"
+            alt="User Avatar"
+            className="w-10 h-10 rounded-lg object-cover"
+          />
           <div className="flex-1 min-w-0">
             <p
               className="text-sm font-semibold truncate"
