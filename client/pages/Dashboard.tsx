@@ -619,7 +619,7 @@ export default function Dashboard() {
                             </span>
                           )}
                           <button
-                            onClick={() => handleDownloadFile(file.id, file.name)}
+                            onClick={() => handleDownloadFile(file.storagePath || "", file.name)}
                             className="p-2 rounded-lg hover:bg-opacity-50 transition-colors"
                             title="Download"
                             style={{ color: colors.textMuted }}
