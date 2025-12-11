@@ -170,59 +170,59 @@ export default function Login() {
                 </>
               )}
             </button>
+
+            {/* Divider */}
+            <div className="relative py-4 my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            {/* OAuth Buttons */}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={loading}
+                className="bg-gray-50 border border-gray-200 py-3 rounded-lg hover:bg-gray-100 font-medium transition text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Google
+              </button>
+              <button
+                type="button"
+                onClick={handleGithubSignIn}
+                disabled={loading}
+                className="bg-gray-50 border border-gray-200 py-3 rounded-lg hover:bg-gray-100 font-medium transition text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                GitHub
+              </button>
+            </div>
           </form>
 
-          {/* Divider */}
-          <div className="relative py-4 my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
-            </div>
+          {/* Footer */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="text-blue-900 hover:text-blue-800 font-bold transition"
+              >
+                Create one
+              </Link>
+            </p>
           </div>
 
-          {/* OAuth Buttons */}
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-              className="bg-gray-50 border border-gray-200 py-3 rounded-lg hover:bg-gray-100 font-medium transition text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Google
-            </button>
-            <button
-              type="button"
-              onClick={handleGithubSignIn}
-              disabled={loading}
-              className="bg-gray-50 border border-gray-200 py-3 rounded-lg hover:bg-gray-100 font-medium transition text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              GitHub
-            </button>
-          </div>
-        </form>
-
-        {/* Footer */}
-        <div className="mt-8 text-center">
-          <p className="text-gray-600 text-sm">
-            Don't have an account?{" "}
-            <Link
-              to="/register"
-              className="text-blue-900 hover:text-blue-800 font-bold transition"
-            >
-              Create one
-            </Link>
-          </p>
+          {/* Back Link */}
+          <Link
+            to="/"
+            className="block mt-6 text-center text-sm text-gray-600 hover:text-gray-900 transition"
+          >
+            ← Back to home
+          </Link>
         </div>
-
-        {/* Back Link */}
-        <Link
-          to="/"
-          className="block mt-6 text-center text-sm text-gray-600 hover:text-gray-900 transition"
-        >
-          ← Back to home
-        </Link>
       </div>
     </div>
   );
