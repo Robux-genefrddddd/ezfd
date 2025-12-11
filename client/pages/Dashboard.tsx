@@ -332,7 +332,26 @@ export default function Dashboard() {
     }
   };
 
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <p className="mt-4 text-gray-500">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   const themeColors = getThemeColors(theme);
+
+  // Apply theme to document root
+  useEffect(() => {
+    document.documentElement.style.backgroundColor = themeColors.background;
+    document.documentElement.style.color = themeColors.text;
+    document.body.style.backgroundColor = themeColors.background;
+    document.body.style.color = themeColors.text;
+  }, [theme, themeColors]);
 
   return (
     <div
