@@ -288,17 +288,12 @@ export default function Dashboard() {
     }
   };
 
-  const handleShareFile = async (fileId: string) => {
-    try {
-      const shareUrl = `${window.location.origin}/share/${fileId}`;
-      const fileRef = doc(db, "files", fileId);
-      await updateDoc(fileRef, {
-        shared: true,
-        shareUrl: shareUrl,
-      });
-      loadFiles();
-    } catch (error) {
-      console.error("Error sharing file:", error);
+  const handleShareFile = (fileId: string) => {
+    const file = files.find((f) => f.id === fileId);
+    if (file) {
+      setShareFileId(fileId);
+      setShareFileName(file.name);
+      setShareModalOpen(true);
     }
   };
 
