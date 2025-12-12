@@ -171,7 +171,10 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Daily Uploads Chart */}
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="lg:col-span-2 rounded-lg border p-6"
           style={{
             backgroundColor: colors.card,
@@ -195,21 +198,27 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
                   backgroundColor: colors.accentLight,
                   border: `1px solid ${colors.border}`,
                   borderRadius: "0.5rem",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
                 }}
                 labelStyle={{ color: colors.text }}
+                cursor={{ fill: "rgba(59, 130, 246, 0.1)" }}
               />
               <Bar
                 dataKey="uploads"
                 fill={colors.primary}
                 radius={[8, 8, 0, 0]}
-                animationDuration={1500}
+                animationDuration={2000}
+                animationEasing="ease-out"
               />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
         {/* Storage Breakdown */}
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="rounded-lg border p-6"
           style={{
             backgroundColor: colors.card,
@@ -230,7 +239,8 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
-                animationDuration={800}
+                animationDuration={1200}
+                animationEasing="ease-out"
               >
                 {storageData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -241,12 +251,13 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
                   backgroundColor: colors.accentLight,
                   border: `1px solid ${colors.border}`,
                   borderRadius: "0.5rem",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
                 }}
                 labelStyle={{ color: colors.text }}
               />
             </PieChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
       </div>
 
       {/* File Type Distribution */}
