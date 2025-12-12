@@ -68,165 +68,104 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
 
   const COLORS = ["#3B82F6", "#9CA3AF"];
 
+  const statCards = [
+    {
+      icon: FileIcon,
+      label: "Total Files",
+      value: totalFiles,
+      color: colors.primary,
+      bgColor: colors.accentLight,
+    },
+    {
+      icon: Share2,
+      label: "Shared Files",
+      value: sharedFiles,
+      color: colors.primary,
+      bgColor: colors.accentLight,
+    },
+    {
+      icon: HardDrive,
+      label: "Storage Used",
+      value: `${storageUsedMB.toFixed(1)}`,
+      subValue: `of ${storageLimitMB.toFixed(0)} MB`,
+      color: colors.primary,
+      bgColor: colors.accentLight,
+    },
+    {
+      icon: Upload,
+      label: "Your Plan",
+      value: plan.type === "premium" ? "Premium" : "Free",
+      isPremium: plan.type === "premium",
+      color: plan.type === "premium" ? "#22C55E" : colors.primary,
+      bgColor: plan.type === "premium" ? "rgba(34, 197, 94, 0.1)" : colors.accentLight,
+      borderColor: plan.type === "premium" ? "#22C55E" : colors.border,
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Total Files Card */}
-        <div
-          className="rounded-lg border p-6 transition-all hover:shadow-lg"
-          style={{
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p
-                className="text-sm font-medium"
-                style={{ color: colors.textSecondary }}
-              >
-                Total Files
-              </p>
-              <p
-                className="text-3xl font-bold mt-2"
-                style={{ color: colors.primary }}
-              >
-                {totalFiles}
-              </p>
-            </div>
-            <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center"
+        {statCards.map((card, index) => {
+          const Icon = card.icon;
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)" }}
+              className="rounded-lg border p-6"
               style={{
-                backgroundColor: colors.accentLight,
+                backgroundColor: card.isPremium
+                  ? "rgba(34, 197, 94, 0.05)"
+                  : colors.card,
+                borderColor: card.borderColor || colors.border,
               }}
             >
-              <FileIcon className="w-6 h-6" style={{ color: colors.primary }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Shared Files Card */}
-        <div
-          className="rounded-lg border p-6 transition-all hover:shadow-lg"
-          style={{
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p
-                className="text-sm font-medium"
-                style={{ color: colors.textSecondary }}
-              >
-                Shared Files
-              </p>
-              <p
-                className="text-3xl font-bold mt-2"
-                style={{ color: colors.primary }}
-              >
-                {sharedFiles}
-              </p>
-            </div>
-            <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center"
-              style={{
-                backgroundColor: colors.accentLight,
-              }}
-            >
-              <Share2 className="w-6 h-6" style={{ color: colors.primary }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Storage Used Card */}
-        <div
-          className="rounded-lg border p-6 transition-all hover:shadow-lg"
-          style={{
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p
-                className="text-sm font-medium"
-                style={{ color: colors.textSecondary }}
-              >
-                Storage Used
-              </p>
-              <p
-                className="text-3xl font-bold mt-2"
-                style={{ color: colors.primary }}
-              >
-                {storageUsedMB.toFixed(1)}
-              </p>
-              <p
-                className="text-xs mt-1"
-                style={{ color: colors.textSecondary }}
-              >
-                of {storageLimitMB.toFixed(0)} MB
-              </p>
-            </div>
-            <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center"
-              style={{
-                backgroundColor: colors.accentLight,
-              }}
-            >
-              <HardDrive
-                className="w-6 h-6"
-                style={{ color: colors.primary }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Plan Badge Card */}
-        <div
-          className="rounded-lg border p-6 transition-all hover:shadow-lg"
-          style={{
-            backgroundColor:
-              plan.type === "premium" ? "rgba(34, 197, 94, 0.05)" : colors.card,
-            borderColor: plan.type === "premium" ? "#22C55E" : colors.border,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p
-                className="text-sm font-medium"
-                style={{ color: colors.textSecondary }}
-              >
-                Your Plan
-              </p>
-              <p
-                className="text-3xl font-bold mt-2"
-                style={{
-                  color: plan.type === "premium" ? "#22C55E" : colors.primary,
-                }}
-              >
-                {plan.type === "premium" ? "Premium" : "Free"}
-              </p>
-            </div>
-            <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center"
-              style={{
-                backgroundColor:
-                  plan.type === "premium"
-                    ? "rgba(34, 197, 94, 0.1)"
-                    : colors.accentLight,
-              }}
-            >
-              <Upload
-                className="w-6 h-6"
-                style={{
-                  color: plan.type === "premium" ? "#22C55E" : colors.primary,
-                }}
-              />
-            </div>
-          </div>
-        </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p
+                    className="text-sm font-medium"
+                    style={{ color: colors.textSecondary }}
+                  >
+                    {card.label}
+                  </p>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 + 0.2 }}
+                    className="text-3xl font-bold mt-2"
+                    style={{ color: card.color }}
+                  >
+                    {card.value}
+                  </motion.p>
+                  {card.subValue && (
+                    <p
+                      className="text-xs mt-1"
+                      style={{ color: colors.textSecondary }}
+                    >
+                      {card.subValue}
+                    </p>
+                  )}
+                </div>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="w-12 h-12 rounded-lg flex items-center justify-center"
+                  style={{
+                    backgroundColor: card.bgColor,
+                  }}
+                >
+                  <Icon
+                    className="w-6 h-6"
+                    style={{ color: card.color }}
+                  />
+                </motion.div>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Charts */}
