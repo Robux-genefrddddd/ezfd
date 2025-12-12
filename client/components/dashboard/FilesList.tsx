@@ -1,8 +1,9 @@
-import { Share2, Trash2, Download, Lock } from "lucide-react";
+import { Share2, Trash2, Download, Lock, FileText, Image, Video, Archive, File } from "lucide-react";
 import { useState } from "react";
 import { storage } from "@/lib/firebase";
 import { ref, getBytes } from "firebase/storage";
 import { getThemeColors } from "@/lib/theme-colors";
+import { motion } from "framer-motion";
 
 interface FileItem {
   id: string;
