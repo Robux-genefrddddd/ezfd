@@ -308,51 +308,94 @@ export function PlanUpgradeModal({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-center space-y-4 py-4"
+                    className="text-center space-y-4 py-8"
                   >
                     <motion.div
-                      className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
+                      className="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
                       style={{
-                        backgroundColor: "rgba(34, 197, 94, 0.1)",
+                        background:
+                          "linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05))",
+                        boxShadow:
+                          "0 0 40px rgba(34, 197, 94, 0.3), inset 0 0 40px rgba(34, 197, 94, 0.1)",
                       }}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
                       transition={{
                         type: "spring",
-                        stiffness: 200,
-                        damping: 15,
+                        stiffness: 150,
+                        damping: 12,
+                        delay: 0.1,
                       }}
                     >
                       <motion.div
-                        animate={{ scale: [1, 1.2, 1] }}
+                        animate={{
+                          scale: [1, 1.15, 1],
+                          rotate: [0, 10, -10, 0],
+                        }}
                         transition={{
-                          duration: 0.6,
+                          duration: 0.8,
                           ease: "easeInOut",
                           repeat: Infinity,
+                          repeatDelay: 0.5,
                         }}
                       >
-                        <CheckCircle className="w-8 h-8 text-green-500" />
+                        <CheckCircle className="w-10 h-10 text-green-500" />
                       </motion.div>
                     </motion.div>
+
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
+                      transition={{ delay: 0.3 }}
                     >
                       <h3
-                        className="font-bold text-lg"
-                        style={{ color: colors.text }}
+                        className="font-bold text-2xl"
+                        style={{ color: "#22C55E" }}
                       >
-                        Premium Activated!
+                        Premium Activated! 🎉
                       </h3>
                       <p
-                        className="text-sm mt-1"
+                        className="text-sm mt-2"
                         style={{
                           color: colors.textSecondary,
                         }}
                       >
                         Your account has been upgraded to premium.
                       </p>
+                      <p
+                        className="text-xs mt-3"
+                        style={{
+                          color: colors.textSecondary,
+                        }}
+                      >
+                        Closing in a moment...
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      className="mt-6"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <div className="space-y-2">
+                        {[
+                          "✓ 1 GB Storage unlocked",
+                          "✓ Priority Support enabled",
+                          "✓ Advanced Features available",
+                        ].map((item, idx) => (
+                          <motion.p
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.6 + idx * 0.1 }}
+                            className="text-sm"
+                            style={{ color: colors.textSecondary }}
+                          >
+                            {item}
+                          </motion.p>
+                        ))}
+                      </div>
                     </motion.div>
                   </motion.div>
                 )}
