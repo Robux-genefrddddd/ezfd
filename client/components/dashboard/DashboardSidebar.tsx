@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getThemeColors } from "@/lib/theme-colors";
 import { UserRole, canAccessAdmin } from "@/lib/auth-utils";
+import { motion } from "framer-motion";
 
 interface UserPlan {
   type: "free" | "premium";
