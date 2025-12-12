@@ -13,7 +13,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { FileIcon, Share2, HardDrive, Upload } from "lucide-react";
+import { FileIcon, Share2, HardDrive, Upload, FileText, Image, Video, Archive } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface DashboardStatsProps {
@@ -32,6 +32,21 @@ interface DashboardStatsProps {
   };
 }
 
+// File type detection utility
+const getFileType = (filename: string): string => {
+  const ext = filename.split(".").pop()?.toLowerCase() || "";
+  const docs = ["pdf", "doc", "docx", "txt", "xlsx", "xls", "ppt", "pptx"];
+  const imgs = ["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp"];
+  const vids = ["mp4", "avi", "mkv", "mov", "wmv", "flv"];
+  const archs = ["zip", "rar", "7z", "tar", "gz"];
+
+  if (docs.includes(ext)) return "Documents";
+  if (imgs.includes(ext)) return "Images";
+  if (vids.includes(ext)) return "Videos";
+  if (archs.includes(ext)) return "Archives";
+  return "Other";
+};
+
 export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
   const colors = getThemeColors(theme);
 
@@ -41,7 +56,21 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
   const storageUsedMB = plan.storageUsed / (1024 * 1024);
   const storageLimitMB = plan.storageLimit / (1024 * 1024);
 
-  // Daily upload simulation (for chart)
+  // Calculate real file type distribution
+  const fileTypeMap = {
+    Documents: 0,
+    Images: 0,
+    Videos: 0,
+    Archives: 0,
+    Other: 0,
+  };
+
+  files.forEach((file) => {
+    const type = getFileType(file.name);
+    fileTypeMap[type as keyof typeof fileTypeMap]++;
+  });
+
+  // Daily upload simulation (for chart) - could be enhanced with real data
   const dailyData = [
     { day: "Mon", uploads: 4 },
     { day: "Tue", uploads: 3 },
