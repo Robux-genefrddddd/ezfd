@@ -2,8 +2,6 @@ import { getThemeColors } from "@/lib/theme-colors";
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
