@@ -13,6 +13,25 @@ import {
 import { auth } from "@/lib/firebase";
 import { useNavigate } from "react-router-dom";
 
+declare global {
+  interface Window {
+    grecaptcha?: {
+      enterprise?: {
+        execute: (key: string, options: { action: string }) => Promise<string>;
+      };
+    };
+  }
+}
+
+const RECAPTCHA_KEY = "6Lf6tSksAAAAACrv64btZy5rTd6XsfFDjdLOL-bi";
+
+const executeRecaptcha = async (action: string): Promise<string> => {
+  if (!window.grecaptcha?.enterprise) {
+    throw new Error("reCAPTCHA not loaded");
+  }
+  return window.grecaptcha.enterprise.execute(RECAPTCHA_KEY, { action });
+};
+
 export default function Index() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +61,8 @@ export default function Index() {
     setError("");
 
     try {
+      const recaptchaToken = await executeRecaptcha("login");
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -54,6 +75,7 @@ export default function Index() {
         return;
       }
 
+      console.log("Login successful with reCAPTCHA token:", recaptchaToken);
       navigate("/dashboard");
     } catch (err: unknown) {
       const error = err as { code?: string; message?: string };
@@ -86,6 +108,8 @@ export default function Index() {
     setLoading(true);
 
     try {
+      const recaptchaToken = await executeRecaptcha("register");
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -100,6 +124,8 @@ export default function Index() {
       await sendEmailVerification(userCredential.user);
       setVerificationSent(true);
       setError("");
+
+      console.log("Registration successful with reCAPTCHA token:", recaptchaToken);
 
       setTimeout(() => {
         setEmail("");
