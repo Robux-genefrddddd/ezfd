@@ -48,20 +48,27 @@ export default function RecaptchaVerification() {
       console.log("reCAPTCHA completed with token:", token);
     };
 
-    if (window.grecaptcha && document.getElementById("recaptcha-container")) {
-      try {
-        window.grecaptcha.render("recaptcha-container", {
-          sitekey: RECAPTCHA_KEY,
-          callback: window.onRecaptchaSuccess,
-          "error-callback": () => {
-            setError("reCAPTCHA failed to load. Please refresh and try again.");
-          },
-        });
-      } catch (err: unknown) {
-        const error = err as { message?: string };
-        setError(error.message || "Failed to render reCAPTCHA");
+    const attemptRender = () => {
+      const container = document.getElementById("recaptcha-container");
+      if (window.grecaptcha && container) {
+        try {
+          window.grecaptcha.render("recaptcha-container", {
+            sitekey: RECAPTCHA_KEY,
+            callback: window.onRecaptchaSuccess,
+            "error-callback": () => {
+              setError("reCAPTCHA failed to load. Please refresh and try again.");
+            },
+          });
+        } catch (err: unknown) {
+          const error = err as { message?: string };
+          setError(error.message || "Failed to render reCAPTCHA");
+        }
+      } else if (!window.grecaptcha) {
+        setTimeout(attemptRender, 100);
       }
-    }
+    };
+
+    attemptRender();
   }, []);
 
   const handleContinue = async () => {
