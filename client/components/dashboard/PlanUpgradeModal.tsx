@@ -1,9 +1,10 @@
-import { X, CheckCircle } from "lucide-react";
+import { X, CheckCircle, Star } from "lucide-react";
 import { useState } from "react";
 import { getThemeColors } from "@/lib/theme-colors";
 import { db } from "@/lib/firebase";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import Confetti from "react-confetti-boom";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface PlanUpgradeModalProps {
   isOpen: boolean;
