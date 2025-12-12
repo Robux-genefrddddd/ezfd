@@ -164,31 +164,21 @@ export default function RecaptchaVerification() {
                 </div>
               )}
 
-              {/* reCAPTCHA Info */}
-              <div
-                className="p-4 rounded-lg border"
-                style={{
-                  backgroundColor: "#141518",
-                  borderColor: "#1F2124",
-                }}
-              >
-                <p className="text-sm text-slate-300 mb-4">
-                  Please verify that you're not a robot by completing the
-                  reCAPTCHA challenge below.
+              {/* reCAPTCHA Widget */}
+              <div className="flex flex-col items-center">
+                <p className="text-sm text-slate-300 mb-4 text-center">
+                  Please verify that you're not a robot
                 </p>
-                <div className="flex items-center justify-center">
-                  <div
-                    className="g-recaptcha"
-                    data-sitekey={RECAPTCHA_KEY}
-                    data-action="login"
-                  ></div>
-                </div>
+                <div
+                  id="recaptcha-container"
+                  className="flex justify-center mb-6"
+                ></div>
               </div>
 
-              {/* Verify Button */}
+              {/* Continue Button */}
               <button
-                onClick={handleVerifyRecaptcha}
-                disabled={loading}
+                onClick={handleContinue}
+                disabled={loading || !recaptchaToken}
                 className="w-full py-3 px-4 rounded-lg text-white font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative"
                 style={{
                   background: `linear-gradient(135deg, #1A2647 0%, #0F0F10 100%)`,
@@ -198,11 +188,15 @@ export default function RecaptchaVerification() {
                 {loading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Verifying...</span>
+                    <span>Continuing...</span>
+                  </>
+                ) : recaptchaToken ? (
+                  <>
+                    <span>Continue to Dashboard</span>
                   </>
                 ) : (
                   <>
-                    <span>Verify and Continue</span>
+                    <span>Complete reCAPTCHA</span>
                   </>
                 )}
               </button>
