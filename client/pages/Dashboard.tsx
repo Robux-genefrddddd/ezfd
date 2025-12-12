@@ -77,7 +77,7 @@ export default function Dashboard() {
   const [shareFileName, setShareFileName] = useState("");
   const [userPlan, setUserPlan] = useState<UserPlan>({
     type: "free",
-    storageLimit: 100 * 1024 * 1024,
+    storageLimit: 1024 * 1024 * 1024, // 1 TB
     storageUsed: 0,
   });
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -108,7 +108,7 @@ export default function Dashboard() {
             // Initialize free plan for new users
             const initialPlan: UserPlan = {
               type: "free",
-              storageLimit: 100 * 1024 * 1024,
+              storageLimit: 1024 * 1024 * 1024, // 1 TB
               storageUsed: 0,
             };
             await setDoc(planRef, initialPlan);
@@ -288,17 +288,12 @@ export default function Dashboard() {
     }
   };
 
-  const handleShareFile = async (fileId: string) => {
-    try {
-      const shareUrl = `${window.location.origin}/share/${fileId}`;
-      const fileRef = doc(db, "files", fileId);
-      await updateDoc(fileRef, {
-        shared: true,
-        shareUrl: shareUrl,
-      });
-      loadFiles();
-    } catch (error) {
-      console.error("Error sharing file:", error);
+  const handleShareFile = (fileId: string) => {
+    const file = files.find((f) => f.id === fileId);
+    if (file) {
+      setShareFileId(fileId);
+      setShareFileName(file.name);
+      setShareModalOpen(true);
     }
   };
 
@@ -463,82 +458,88 @@ export default function Dashboard() {
       <main className="flex-1 ml-64 overflow-auto">
         {/* Header */}
         <header
-          className="border-b px-8 py-6 sticky top-0 z-40"
+          className="border-b px-10 py-8 sticky top-0 z-40"
           style={{
-            backgroundColor: theme === "dark" ? "#111214" : "#FFFFFF",
-            borderColor: theme === "dark" ? "#1F2124" : "#E5E7EB",
+            backgroundColor: themeColors.background,
+            borderColor: themeColors.border,
           }}
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <h1
-                className="text-3xl font-bold mb-1"
-                style={{ color: theme === "dark" ? "#FFFFFF" : "#111827" }}
-              >
-                Welcome {userName}!
-              </h1>
-              <p style={{ color: theme === "dark" ? "#9CA3AF" : "#6B7280" }}>
-                {activeTab === "files" &&
-                  "Upload, organize and share your files securely"}
-                {activeTab === "users" &&
-                  "Manage your team members and their roles"}
-                {activeTab === "theme" &&
-                  "Personalize your dashboard appearance"}
-                {activeTab === "admin" &&
-                  "Manage system settings, users, and keys"}
-              </p>
-            </div>
+          <div className="max-w-7xl mx-auto">
+            <h1
+              className="text-2xl font-bold mb-2"
+              style={{ color: themeColors.text }}
+            >
+              {activeTab === "files" && "Files"}
+              {activeTab === "users" && "User Management"}
+              {activeTab === "theme" && "Appearance"}
+              {activeTab === "admin" && "Admin Panel"}
+            </h1>
+            <p style={{ color: themeColors.textSecondary }} className="text-sm">
+              {activeTab === "files" &&
+                "Manage, share, and organize your cloud storage"}
+              {activeTab === "users" &&
+                "Control team members and access permissions"}
+              {activeTab === "theme" &&
+                "Customize the look and feel of your dashboard"}
+              {activeTab === "admin" &&
+                "System administration and configuration"}
+            </p>
           </div>
         </header>
 
         {/* Content Area */}
-        <div className="p-8">
-          {/* Files Tab */}
-          {activeTab === "files" && (
-            <div className="space-y-6">
-              <DashboardStats files={files} theme={theme} plan={userPlan} />
-              <FileUpload
-                onFileSelected={handleFileUpload}
-                uploading={uploading}
+        <div
+          className="p-10"
+          style={{ backgroundColor: themeColors.background }}
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Files Tab */}
+            {activeTab === "files" && (
+              <div className="space-y-6">
+                <DashboardStats files={files} theme={theme} plan={userPlan} />
+                <FileUpload
+                  onFileSelected={handleFileUpload}
+                  uploading={uploading}
+                  theme={theme}
+                />
+                <FilesList
+                  files={files}
+                  loading={loading}
+                  theme={theme}
+                  onShare={handleShareFile}
+                  onDelete={handleDeleteFile}
+                  onCopyShareLink={(url) => {
+                    alert("Share link copied to clipboard!");
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Users Tab */}
+            {activeTab === "users" && (
+              <UserManagement
+                users={users}
                 theme={theme}
+                onAddUser={handleAddUser}
+                onDeleteUser={handleDeleteUser}
+                onUpdateUserRole={handleUpdateUserRole}
               />
-              <FilesList
-                files={files}
-                loading={loading}
+            )}
+
+            {/* Theme Tab */}
+            {activeTab === "theme" && (
+              <ThemeSelector theme={theme} onThemeChange={handleThemeChange} />
+            )}
+
+            {/* Admin Tab */}
+            {activeTab === "admin" && (
+              <AdminPanel
                 theme={theme}
-                onShare={handleShareFile}
-                onDelete={handleDeleteFile}
-                onCopyShareLink={(url) => {
-                  alert("Share link copied to clipboard!");
-                }}
+                userRole={userRole}
+                userId={userId || ""}
               />
-            </div>
-          )}
-
-          {/* Users Tab */}
-          {activeTab === "users" && (
-            <UserManagement
-              users={users}
-              theme={theme}
-              onAddUser={handleAddUser}
-              onDeleteUser={handleDeleteUser}
-              onUpdateUserRole={handleUpdateUserRole}
-            />
-          )}
-
-          {/* Theme Tab */}
-          {activeTab === "theme" && (
-            <ThemeSelector theme={theme} onThemeChange={handleThemeChange} />
-          )}
-
-          {/* Admin Tab */}
-          {activeTab === "admin" && (
-            <AdminPanel
-              theme={theme}
-              userRole={userRole}
-              userId={userId || ""}
-            />
-          )}
+            )}
+          </div>
         </div>
       </main>
 
@@ -561,6 +562,25 @@ export default function Dashboard() {
         userId={userId || ""}
         onUpgradePlan={(plan) => setUserPlan(plan)}
       />
+
+      {/* Share File Modal */}
+      {shareFileId && (
+        <ShareFileModal
+          isOpen={shareModalOpen}
+          onClose={() => {
+            setShareModalOpen(false);
+            setShareFileId(null);
+            setShareFileName("");
+            loadFiles();
+          }}
+          fileId={shareFileId}
+          fileName={shareFileName}
+          theme={theme}
+          onShareComplete={() => {
+            loadFiles();
+          }}
+        />
+      )}
     </div>
   );
 }

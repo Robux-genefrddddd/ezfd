@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Download, ArrowLeft, Lock, AlertCircle } from "lucide-react";
+import {
+  Download,
+  ArrowLeft,
+  Lock,
+  AlertCircle,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { db, storage } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { ref, getBytes } from "firebase/storage";
@@ -11,6 +18,7 @@ interface SharedFile {
   size: string;
   uploadedAt: string;
   shared: boolean;
+  sharePassword?: string;
 }
 
 export default function Share() {
@@ -19,6 +27,11 @@ export default function Share() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [isPasswordProtected, setIsPasswordProtected] = useState(false);
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [passwordVerified, setPasswordVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     loadSharedFile();
@@ -54,12 +67,33 @@ export default function Share() {
         size: fileData.size,
         uploadedAt: new Date(fileData.uploadedAt).toLocaleDateString(),
         shared: fileData.shared,
+        sharePassword: fileData.sharePassword,
       });
+
+      // Check if file is password protected
+      if (fileData.sharePassword) {
+        setIsPasswordProtected(true);
+        setPasswordVerified(false);
+      } else {
+        setPasswordVerified(true);
+      }
     } catch (err) {
       console.error("Error loading file:", err);
       setError("Failed to load file");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError(null);
+
+    if (enteredPassword === file?.sharePassword) {
+      setPasswordVerified(true);
+    } else {
+      setPasswordError("Incorrect password");
+      setEnteredPassword("");
     }
   };
 
@@ -161,64 +195,149 @@ export default function Share() {
               borderColor: "#1F2124",
             }}
           >
-            {/* File Icon */}
-            <div className="flex justify-center">
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{
-                  backgroundColor: "rgba(59, 130, 246, 0.1)",
-                }}
-              >
-                <Lock className="w-8 h-8 text-blue-400" />
-              </div>
-            </div>
-
-            {/* File Info */}
-            <div className="space-y-3">
-              <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
-                  Filename
-                </p>
-                <p className="text-lg font-semibold text-white break-all">
-                  {file.name}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
-                    File Size
-                  </p>
-                  <p className="text-white font-medium">{file.size}</p>
+            {/* Password Form - Show if password protected and not verified */}
+            {isPasswordProtected && !passwordVerified ? (
+              <>
+                {/* Lock Icon */}
+                <div className="flex justify-center">
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: "rgba(59, 130, 246, 0.1)",
+                    }}
+                  >
+                    <Lock className="w-8 h-8 text-blue-400" />
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
-                    Uploaded
+
+                {/* File Name (without password) */}
+                <div className="text-center">
+                  <p className="text-xs text-slate-400 uppercase tracking-wide mb-2">
+                    Protected File
                   </p>
-                  <p className="text-white font-medium">{file.uploadedAt}</p>
+                  <p className="text-lg font-semibold text-white break-all">
+                    {file.name}
+                  </p>
                 </div>
-              </div>
-            </div>
 
-            {/* Download Button */}
-            <button
-              onClick={handleDownload}
-              disabled={downloading}
-              className="w-full py-3 px-4 rounded-lg text-white font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              style={{
-                background: `linear-gradient(135deg, #1A2647 0%, #0F0F10 100%)`,
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
-              }}
-            >
-              <Download className="w-4 h-4" />
-              {downloading ? "Downloading..." : "Download File"}
-            </button>
+                {/* Password Form */}
+                <form onSubmit={handlePasswordSubmit} className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-white mb-2 block">
+                      Enter Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={enteredPassword}
+                        onChange={(e) => setEnteredPassword(e.target.value)}
+                        placeholder="Password required"
+                        className="w-full px-4 py-3 rounded-lg border bg-slate-900 text-white placeholder-slate-500 transition-all focus:outline-none"
+                        style={{
+                          borderColor: passwordError ? "#EF4444" : "#334155",
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                    {passwordError && (
+                      <p className="text-red-400 text-xs mt-2">
+                        {passwordError}
+                      </p>
+                    )}
+                  </div>
 
-            {/* Info Message */}
-            <p className="text-xs text-slate-500 text-center">
-              This file was securely shared with you. Download link expires
-              after a period of inactivity.
-            </p>
+                  <button
+                    type="submit"
+                    className="w-full py-3 px-4 rounded-lg text-white font-semibold text-sm transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      background: `linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)`,
+                      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
+                    }}
+                  >
+                    Unlock & Download
+                  </button>
+                </form>
+
+                <p className="text-xs text-slate-500 text-center">
+                  This file is password protected. Enter the password to
+                  proceed.
+                </p>
+              </>
+            ) : (
+              <>
+                {/* File Icon */}
+                <div className="flex justify-center">
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: "rgba(59, 130, 246, 0.1)",
+                    }}
+                  >
+                    <Lock className="w-8 h-8 text-blue-400" />
+                  </div>
+                </div>
+
+                {/* File Info */}
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
+                      Filename
+                    </p>
+                    <p className="text-lg font-semibold text-white break-all">
+                      {file.name}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
+                        File Size
+                      </p>
+                      <p className="text-white font-medium">{file.size}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
+                        Uploaded
+                      </p>
+                      <p className="text-white font-medium">
+                        {file.uploadedAt}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Download Button */}
+                <button
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="w-full py-3 px-4 rounded-lg text-white font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{
+                    background: `linear-gradient(135deg, #1A2647 0%, #0F0F10 100%)`,
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
+                  }}
+                >
+                  <Download className="w-4 h-4" />
+                  {downloading ? "Downloading..." : "Download File"}
+                </button>
+
+                {/* Info Message */}
+                <p className="text-xs text-slate-500 text-center">
+                  {isPasswordProtected ? "Password-protected share. " : ""}This
+                  file was securely shared with you. Download link expires after
+                  a period of inactivity.
+                </p>
+              </>
+            )}
           </div>
         ) : null}
       </div>

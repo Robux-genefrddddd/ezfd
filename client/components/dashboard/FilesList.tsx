@@ -2,18 +2,17 @@ import {
   Share2,
   Trash2,
   Download,
-  Lock,
   FileText,
   Image,
   Video,
   Archive,
   File,
+  Check,
 } from "lucide-react";
 import { useState } from "react";
 import { storage } from "@/lib/firebase";
 import { ref, getBytes } from "firebase/storage";
 import { getThemeColors } from "@/lib/theme-colors";
-import { motion } from "framer-motion";
 
 interface FileItem {
   id: string;
@@ -173,50 +172,46 @@ export function FilesList({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+    <div
       className="rounded-lg border overflow-hidden"
       style={{
         backgroundColor: colors.card,
         borderColor: colors.border,
       }}
     >
+      {/* Header */}
       <div
-        className="px-6 py-5 border-b backdrop-blur-sm"
+        className="px-6 py-4 border-b"
         style={{
           borderColor: colors.border,
-          background: `linear-gradient(135deg, ${colors.card} 0%, ${colors.sidebar}22 100%)`,
+          backgroundColor: colors.sidebar,
         }}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold" style={{ color: colors.text }}>
-            My Files
+          <h2
+            className="text-sm font-semibold uppercase tracking-wider"
+            style={{ color: colors.text }}
+          >
+            Files
             {files.length > 0 && (
-              <motion.span
-                className="ml-2 px-3 py-1 rounded-full text-sm font-medium inline-block"
+              <span
+                className="ml-3 px-2 py-1 rounded text-xs font-medium inline-block"
                 style={{
                   backgroundColor: colors.accentLight,
                   color: colors.primary,
                 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
               >
                 {files.length}
-              </motion.span>
+              </span>
             )}
           </h2>
         </div>
       </div>
 
-      <div className="divide-y" style={{ borderColor: colors.border }}>
+      {/* Content */}
+      <div style={{ borderColor: colors.border }}>
         {loading ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="px-6 py-12 text-center"
-          >
+          <div className="px-6 py-12 text-center">
             <div className="inline-block">
               <div
                 className="w-8 h-8 border-3 border-transparent rounded-full animate-spin"
@@ -234,21 +229,19 @@ export function FilesList({
             >
               Loading your files...
             </p>
-          </motion.div>
+          </div>
         ) : files.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="px-6 py-12 text-center"
-          >
+          <div className="px-6 py-16 text-center">
             <div
-              className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4"
+              className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4"
               style={{
-                backgroundColor: colors.accentLight,
+                backgroundColor: colors.border,
               }}
             >
-              <File className="w-8 h-8" style={{ color: colors.primary }} />
+              <File
+                className="w-6 h-6"
+                style={{ color: colors.textSecondary }}
+              />
             </div>
             <p
               className="text-sm font-medium"
@@ -266,42 +259,40 @@ export function FilesList({
             >
               Upload files to get started
             </p>
-          </motion.div>
+          </div>
         ) : (
-          <div className="space-y-1 p-2">
-            {files.map((file, idx) => {
+          <div className="divide-y" style={{ borderColor: colors.border }}>
+            {files.map((file) => {
               const { icon: FileIcon, color } = getFileIcon(file.name);
 
               return (
-                <motion.div
+                <div
                   key={file.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  whileHover={{
-                    x: 4,
-                  }}
-                  className="px-4 py-3 rounded-lg flex items-center justify-between group transition-all hover:shadow-md"
+                  className="px-6 py-3 flex items-center justify-between group hover:bg-opacity-50 transition-colors"
                   style={{
-                    backgroundColor: colors.sidebar,
-                    border: `1px solid ${colors.border}`,
+                    backgroundColor: colors.card,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = colors.sidebar;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = colors.card;
                   }}
                 >
-                  {/* File Info */}
+                  {/* File Icon & Name */}
                   <div className="flex-1 min-w-0 flex items-center gap-3">
-                    <motion.div
-                      className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                    <div
+                      className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
                       style={{
                         backgroundColor: `${color}15`,
                       }}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
                     >
-                      <FileIcon className="w-5 h-5" style={{ color }} />
-                    </motion.div>
+                      <FileIcon className="w-4 h-4" style={{ color }} />
+                    </div>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p
-                        className="font-medium text-sm truncate"
+                        className="text-sm font-medium truncate"
                         style={{
                           color: colors.text,
                         }}
@@ -309,50 +300,25 @@ export function FilesList({
                       >
                         {file.name}
                       </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <p
-                          className="text-xs"
-                          style={{
-                            color: colors.textSecondary,
-                          }}
-                        >
-                          {file.size}
-                        </p>
-                        <span
-                          style={{
-                            color: colors.textTertiary,
-                          }}
-                        >
-                          •
-                        </span>
-                        <p
-                          className="text-xs"
-                          style={{
-                            color: colors.textSecondary,
-                          }}
-                        >
-                          {file.uploadedAt}
-                        </p>
+                      <div
+                        className="flex items-center gap-3 mt-0.5 text-xs"
+                        style={{ color: colors.textSecondary }}
+                      >
+                        <span>{file.size}</span>
+                        <span>•</span>
+                        <span>{file.uploadedAt}</span>
                         {file.shared && (
                           <>
+                            <span>•</span>
                             <span
-                              style={{
-                                color: colors.textTertiary,
-                              }}
-                            >
-                              •
-                            </span>
-                            <motion.span
-                              className="px-2 py-0.5 rounded text-xs font-medium flex items-center gap-1"
+                              className="px-1.5 py-0.5 rounded text-xs font-medium"
                               style={{
                                 backgroundColor: "rgba(34, 197, 94, 0.15)",
                                 color: "#22C55E",
                               }}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
                             >
                               ✓ Shared
-                            </motion.span>
+                            </span>
                           </>
                         )}
                       </div>
@@ -360,11 +326,11 @@ export function FilesList({
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-1 ml-4 opacity-100 group-hover:opacity-100 transition-opacity">
-                    <motion.button
+                  <div className="flex items-center gap-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
                       onClick={() => handleDownload(file)}
                       disabled={downloadingId === file.id}
-                      className="p-2 rounded-lg transition-all"
+                      className="p-1.5 rounded transition-colors"
                       style={{
                         backgroundColor:
                           downloadingId === file.id
@@ -372,46 +338,35 @@ export function FilesList({
                             : "transparent",
                         color: colors.primary,
                       }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                       title="Download file"
                     >
-                      {downloadingId === file.id ? (
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                        >
-                          <Download className="w-4 h-4" />
-                        </motion.div>
-                      ) : (
-                        <Download className="w-4 h-4" />
-                      )}
-                    </motion.button>
+                      <Download className="w-4 h-4" />
+                    </button>
 
                     {!file.shared ? (
-                      <motion.button
+                      <button
                         onClick={() => onShare(file.id)}
-                        className="p-2 rounded-lg transition-all"
+                        className="p-1.5 rounded transition-colors"
                         style={{
                           color: colors.textSecondary,
                         }}
-                        whileHover={{
-                          scale: 1.05,
-                          color: colors.primary,
-                          backgroundColor: colors.accentLight,
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor =
+                            colors.accentLight;
+                          e.currentTarget.style.color = colors.primary;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = colors.textSecondary;
                         }}
                         title="Share file"
                       >
                         <Share2 className="w-4 h-4" />
-                      </motion.button>
+                      </button>
                     ) : (
-                      <motion.button
+                      <button
                         onClick={() => handleCopyShare(file.id, file.shareUrl)}
-                        className="p-2 rounded-lg transition-all"
+                        className="p-1.5 rounded transition-colors"
                         style={{
                           backgroundColor:
                             copiedId === file.id
@@ -420,67 +375,44 @@ export function FilesList({
                           color:
                             copiedId === file.id ? "#22C55E" : colors.primary,
                         }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                         title="Copy share link"
                       >
                         {copiedId === file.id ? (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 400,
-                              damping: 10,
-                            }}
-                          >
-                            ✓
-                          </motion.div>
+                          <Check className="w-4 h-4" />
                         ) : (
                           <Share2 className="w-4 h-4" />
                         )}
-                      </motion.button>
+                      </button>
                     )}
 
-                    <motion.button
+                    <button
                       onClick={() => {
                         setDeletingId(file.id);
                         onDelete(file.id);
                       }}
                       disabled={deletingId === file.id}
-                      className="p-2 rounded-lg transition-all"
+                      className="p-1.5 rounded transition-colors"
                       style={{
                         color: "#EF4444",
                       }}
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgba(239, 68, 68, 0.15)",
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor =
+                          "rgba(239, 68, 68, 0.15)";
                       }}
-                      whileTap={{ scale: 0.95 }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                      }}
                       title="Delete file"
                     >
-                      {deletingId === file.id ? (
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{
-                            duration: 1,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </motion.div>
-                      ) : (
-                        <Trash2 className="w-4 h-4" />
-                      )}
-                    </motion.button>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
