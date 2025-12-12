@@ -5,10 +5,17 @@ import { useNavigate, useLocation } from "react-router-dom";
 declare global {
   interface Window {
     grecaptcha?: {
-      enterprise?: {
-        execute: (key: string, options: { action: string }) => Promise<string>;
-      };
+      render: (
+        container: string | HTMLElement,
+        options: {
+          sitekey: string;
+          callback?: (token: string) => void;
+          "error-callback"?: () => void;
+        }
+      ) => number;
+      getResponse: (widgetId?: number) => string;
     };
+    onRecaptchaSuccess?: (token: string) => void;
   }
 }
 
@@ -19,9 +26,10 @@ interface LocationState {
 }
 
 export default function RecaptchaVerification() {
-  const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [error, setError] = useState("");
   const [verificationComplete, setVerificationComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState || {};
@@ -33,23 +41,39 @@ export default function RecaptchaVerification() {
     }
   }, [email, navigate]);
 
-  const executeRecaptcha = async (): Promise<string> => {
-    if (!window.grecaptcha?.enterprise) {
-      throw new Error("reCAPTCHA not loaded");
-    }
-    return window.grecaptcha.enterprise.execute(RECAPTCHA_KEY, {
-      action: "login",
-    });
-  };
+  useEffect(() => {
+    window.onRecaptchaSuccess = (token: string) => {
+      setRecaptchaToken(token);
+      console.log("reCAPTCHA completed with token:", token);
+    };
 
-  const handleVerifyRecaptcha = async () => {
+    if (window.grecaptcha && document.getElementById("recaptcha-container")) {
+      try {
+        window.grecaptcha.render("recaptcha-container", {
+          sitekey: RECAPTCHA_KEY,
+          callback: window.onRecaptchaSuccess,
+          "error-callback": () => {
+            setError("reCAPTCHA failed to load. Please refresh and try again.");
+          },
+        });
+      } catch (err: unknown) {
+        const error = err as { message?: string };
+        setError(error.message || "Failed to render reCAPTCHA");
+      }
+    }
+  }, []);
+
+  const handleContinue = async () => {
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA verification first");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
     try {
-      const token = await executeRecaptcha();
-      console.log("reCAPTCHA verified with token:", token);
-
+      console.log("Proceeding with reCAPTCHA token:", recaptchaToken);
       setVerificationComplete(true);
 
       setTimeout(() => {
@@ -57,9 +81,7 @@ export default function RecaptchaVerification() {
       }, 1500);
     } catch (err: unknown) {
       const error = err as { message?: string };
-      setError(
-        error.message || "reCAPTCHA verification failed. Please try again."
-      );
+      setError(error.message || "Verification failed. Please try again.");
     } finally {
       setLoading(false);
     }
