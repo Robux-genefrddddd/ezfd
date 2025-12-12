@@ -127,7 +127,20 @@ export function PlanUpgradeModal({
           }}
           onClick={onClose}
         >
-          {showConfetti && <Confetti particleCount={80} />}
+          {showConfetti && (
+            <>
+              <Confetti
+                particleCount={150}
+                spread={120}
+                colors={["#22C55E", "#10B981", "#059669", "#FBBF24", "#F59E0B"]}
+              />
+              <Confetti
+                particleCount={80}
+                spread={180}
+                y={-200}
+              />
+            </>
+          )}
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
