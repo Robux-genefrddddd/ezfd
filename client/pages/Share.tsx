@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Download, ArrowLeft, Lock, AlertCircle } from "lucide-react";
+import { Download, ArrowLeft, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { db, storage } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { ref, getBytes } from "firebase/storage";
@@ -11,6 +11,7 @@ interface SharedFile {
   size: string;
   uploadedAt: string;
   shared: boolean;
+  sharePassword?: string;
 }
 
 export default function Share() {
@@ -19,6 +20,11 @@ export default function Share() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [isPasswordProtected, setIsPasswordProtected] = useState(false);
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [passwordVerified, setPasswordVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     loadSharedFile();
