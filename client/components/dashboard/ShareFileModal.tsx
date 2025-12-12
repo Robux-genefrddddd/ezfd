@@ -106,22 +106,13 @@ export function ShareFileModal({
               className="w-10 h-10 rounded-lg flex items-center justify-center"
               style={{ backgroundColor: colors.accentLight }}
             >
-              <Link2
-                className="w-5 h-5"
-                style={{ color: colors.primary }}
-              />
+              <Link2 className="w-5 h-5" style={{ color: colors.primary }} />
             </div>
             <div>
-              <h2
-                className="text-lg font-bold"
-                style={{ color: colors.text }}
-              >
+              <h2 className="text-lg font-bold" style={{ color: colors.text }}>
                 {step === "options" ? "Share File" : "Link Ready"}
               </h2>
-              <p
-                className="text-xs"
-                style={{ color: colors.textSecondary }}
-              >
+              <p className="text-xs" style={{ color: colors.textSecondary }}>
                 {fileName.length > 30
                   ? fileName.substring(0, 27) + "..."
                   : fileName}
@@ -184,9 +175,7 @@ export function ShareFileModal({
                       }}
                     >
                       <div className="flex items-start gap-3">
-                        <span className="text-xl mt-0.5">
-                          {option.icon}
-                        </span>
+                        <span className="text-xl mt-0.5">{option.icon}</span>
                         <div>
                           <p
                             className="font-medium"
@@ -259,16 +248,10 @@ export function ShareFileModal({
                   borderColor: colors.border,
                 }}
               >
-                <p
-                  className="text-xs"
-                  style={{ color: colors.textSecondary }}
-                >
+                <p className="text-xs" style={{ color: colors.textSecondary }}>
                   ✓ Shared files are only accessible via direct link
                 </p>
-                <p
-                  className="text-xs"
-                  style={{ color: colors.textSecondary }}
-                >
+                <p className="text-xs" style={{ color: colors.textSecondary }}>
                   ✓ Recipients can download and view the file
                 </p>
               </div>
@@ -285,10 +268,7 @@ export function ShareFileModal({
               </div>
 
               <div>
-                <h3
-                  className="font-bold text-lg"
-                  style={{ color: "#22C55E" }}
-                >
+                <h3 className="font-bold text-lg" style={{ color: "#22C55E" }}>
                   Share Link Ready!
                 </h3>
                 <p
@@ -346,8 +326,7 @@ export function ShareFileModal({
               <button
                 onClick={handleShare}
                 disabled={
-                  loading ||
-                  (shareType === "password" && password.length < 6)
+                  loading || (shareType === "password" && password.length < 6)
                 }
                 className="w-full py-2 px-4 rounded-lg font-medium transition-all disabled:opacity-50 hover:opacity-90"
                 style={{

@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Download, ArrowLeft, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
+import {
+  Download,
+  ArrowLeft,
+  Lock,
+  AlertCircle,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { db, storage } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { ref, getBytes } from "firebase/storage";
@@ -243,7 +250,9 @@ export default function Share() {
                       </button>
                     </div>
                     {passwordError && (
-                      <p className="text-red-400 text-xs mt-2">{passwordError}</p>
+                      <p className="text-red-400 text-xs mt-2">
+                        {passwordError}
+                      </p>
                     )}
                   </div>
 
@@ -260,7 +269,8 @@ export default function Share() {
                 </form>
 
                 <p className="text-xs text-slate-500 text-center">
-                  This file is password protected. Enter the password to proceed.
+                  This file is password protected. Enter the password to
+                  proceed.
                 </p>
               </>
             ) : (
@@ -299,7 +309,9 @@ export default function Share() {
                       <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">
                         Uploaded
                       </p>
-                      <p className="text-white font-medium">{file.uploadedAt}</p>
+                      <p className="text-white font-medium">
+                        {file.uploadedAt}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -320,9 +332,9 @@ export default function Share() {
 
                 {/* Info Message */}
                 <p className="text-xs text-slate-500 text-center">
-                  {isPasswordProtected ? "Password-protected share. " : ""}This file was
-                  securely shared with you. Download link expires after a
-                  period of inactivity.
+                  {isPasswordProtected ? "Password-protected share. " : ""}This
+                  file was securely shared with you. Download link expires after
+                  a period of inactivity.
                 </p>
               </>
             )}

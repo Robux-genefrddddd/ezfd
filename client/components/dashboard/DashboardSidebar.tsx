@@ -103,9 +103,13 @@ export function DashboardSidebar({
               onClick={() => onTabChange(item.id)}
               className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors text-left border-l-2.5"
               style={{
-                backgroundColor: isActive ? `${colors.primary}15` : "transparent",
+                backgroundColor: isActive
+                  ? `${colors.primary}15`
+                  : "transparent",
                 borderColor: isActive ? colors.primary : "transparent",
-                color: isActive ? colors.sidebarForeground : colors.textSecondary,
+                color: isActive
+                  ? colors.sidebarForeground
+                  : colors.textSecondary,
               }}
             >
               <Icon className="w-4 h-4" />
@@ -194,7 +198,8 @@ export function DashboardSidebar({
                     userPlan.type === "premium"
                       ? "rgba(34, 197, 94, 0.15)"
                       : "rgba(100, 116, 139, 0.15)",
-                  color: userPlan.type === "premium" ? "#22C55E" : colors.primary,
+                  color:
+                    userPlan.type === "premium" ? "#22C55E" : colors.primary,
                 }}
               >
                 {userPlan.type === "premium" ? "Premium" : "Free"}

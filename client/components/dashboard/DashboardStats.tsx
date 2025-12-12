@@ -81,7 +81,8 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
     .filter((item) => item.count > 0)
     .sort((a, b) => b.count - a.count);
 
-  const lastUploadFile = files.length > 0 ? files[files.length - 1].uploadedAt : "—";
+  const lastUploadFile =
+    files.length > 0 ? files[files.length - 1].uploadedAt : "—";
 
   return (
     <div className="space-y-6">
@@ -103,12 +104,15 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
               className="text-3xl font-bold tracking-tight mb-1"
               style={{ color: colors.text }}
             >
-              {storageUsedMB.toFixed(1)} <span className="text-lg font-semibold" style={{ color: colors.textSecondary }}>MB</span>
+              {storageUsedMB.toFixed(1)}{" "}
+              <span
+                className="text-lg font-semibold"
+                style={{ color: colors.textSecondary }}
+              >
+                MB
+              </span>
             </p>
-            <p
-              className="text-xs"
-              style={{ color: colors.textSecondary }}
-            >
+            <p className="text-xs" style={{ color: colors.textSecondary }}>
               {storageLimitMB.toFixed(0)} MB limit
             </p>
           </div>
@@ -149,10 +153,7 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
           >
             Total Files
           </p>
-          <p
-            className="text-4xl font-bold"
-            style={{ color: colors.text }}
-          >
+          <p className="text-4xl font-bold" style={{ color: colors.text }}>
             {totalFiles}
           </p>
         </div>
@@ -165,10 +166,7 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
           >
             Shared
           </p>
-          <p
-            className="text-4xl font-bold"
-            style={{ color: colors.primary }}
-          >
+          <p className="text-4xl font-bold" style={{ color: colors.primary }}>
             {sharedFiles}
           </p>
         </div>
@@ -183,10 +181,17 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
           Activity
         </p>
         <ResponsiveContainer width="100%" height={240}>
-          <AreaChart data={activityData} margin={{ top: 0, right: 0, left: -35, bottom: 0 }}>
+          <AreaChart
+            data={activityData}
+            margin={{ top: 0, right: 0, left: -35, bottom: 0 }}
+          >
             <defs>
               <linearGradient id="colorUploads" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={colors.primary} stopOpacity={0.3} />
+                <stop
+                  offset="5%"
+                  stopColor={colors.primary}
+                  stopOpacity={0.3}
+                />
                 <stop offset="95%" stopColor={colors.primary} stopOpacity={0} />
               </linearGradient>
             </defs>
@@ -203,7 +208,11 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
               tickLine={false}
               axisLine={{ stroke: colors.border }}
             />
-            <CartesianGrid strokeDasharray="0" stroke={colors.border} vertical={false} />
+            <CartesianGrid
+              strokeDasharray="0"
+              stroke={colors.border}
+              vertical={false}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: colors.sidebar,
@@ -238,11 +247,15 @@ export function DashboardStats({ files, theme, plan }: DashboardStatsProps) {
         <div className="space-y-4">
           {storageBreakdown.length > 0 ? (
             storageBreakdown.map((item) => {
-              const percentage = totalFiles > 0 ? (item.count / totalFiles) * 100 : 0;
+              const percentage =
+                totalFiles > 0 ? (item.count / totalFiles) * 100 : 0;
               return (
                 <div key={item.type}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium" style={{ color: colors.text }}>
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: colors.text }}
+                    >
                       {item.type}
                     </span>
                     <span

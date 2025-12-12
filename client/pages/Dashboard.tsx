@@ -488,54 +488,57 @@ export default function Dashboard() {
         </header>
 
         {/* Content Area */}
-        <div className="p-10" style={{ backgroundColor: themeColors.background }}>
+        <div
+          className="p-10"
+          style={{ backgroundColor: themeColors.background }}
+        >
           <div className="max-w-7xl mx-auto">
-          {/* Files Tab */}
-          {activeTab === "files" && (
-            <div className="space-y-6">
-              <DashboardStats files={files} theme={theme} plan={userPlan} />
-              <FileUpload
-                onFileSelected={handleFileUpload}
-                uploading={uploading}
+            {/* Files Tab */}
+            {activeTab === "files" && (
+              <div className="space-y-6">
+                <DashboardStats files={files} theme={theme} plan={userPlan} />
+                <FileUpload
+                  onFileSelected={handleFileUpload}
+                  uploading={uploading}
+                  theme={theme}
+                />
+                <FilesList
+                  files={files}
+                  loading={loading}
+                  theme={theme}
+                  onShare={handleShareFile}
+                  onDelete={handleDeleteFile}
+                  onCopyShareLink={(url) => {
+                    alert("Share link copied to clipboard!");
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Users Tab */}
+            {activeTab === "users" && (
+              <UserManagement
+                users={users}
                 theme={theme}
+                onAddUser={handleAddUser}
+                onDeleteUser={handleDeleteUser}
+                onUpdateUserRole={handleUpdateUserRole}
               />
-              <FilesList
-                files={files}
-                loading={loading}
+            )}
+
+            {/* Theme Tab */}
+            {activeTab === "theme" && (
+              <ThemeSelector theme={theme} onThemeChange={handleThemeChange} />
+            )}
+
+            {/* Admin Tab */}
+            {activeTab === "admin" && (
+              <AdminPanel
                 theme={theme}
-                onShare={handleShareFile}
-                onDelete={handleDeleteFile}
-                onCopyShareLink={(url) => {
-                  alert("Share link copied to clipboard!");
-                }}
+                userRole={userRole}
+                userId={userId || ""}
               />
-            </div>
-          )}
-
-          {/* Users Tab */}
-          {activeTab === "users" && (
-            <UserManagement
-              users={users}
-              theme={theme}
-              onAddUser={handleAddUser}
-              onDeleteUser={handleDeleteUser}
-              onUpdateUserRole={handleUpdateUserRole}
-            />
-          )}
-
-          {/* Theme Tab */}
-          {activeTab === "theme" && (
-            <ThemeSelector theme={theme} onThemeChange={handleThemeChange} />
-          )}
-
-          {/* Admin Tab */}
-          {activeTab === "admin" && (
-            <AdminPanel
-              theme={theme}
-              userRole={userRole}
-              userId={userId || ""}
-            />
-          )}
+            )}
           </div>
         </div>
       </main>

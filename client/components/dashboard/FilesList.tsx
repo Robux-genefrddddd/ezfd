@@ -188,7 +188,10 @@ export function FilesList({
         }}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold uppercase tracking-wider" style={{ color: colors.text }}>
+          <h2
+            className="text-sm font-semibold uppercase tracking-wider"
+            style={{ color: colors.text }}
+          >
             Files
             {files.length > 0 && (
               <span
@@ -235,7 +238,10 @@ export function FilesList({
                 backgroundColor: colors.border,
               }}
             >
-              <File className="w-6 h-6" style={{ color: colors.textSecondary }} />
+              <File
+                className="w-6 h-6"
+                style={{ color: colors.textSecondary }}
+              />
             </div>
             <p
               className="text-sm font-medium"
@@ -255,10 +261,7 @@ export function FilesList({
             </p>
           </div>
         ) : (
-          <div
-            className="divide-y"
-            style={{ borderColor: colors.border }}
-          >
+          <div className="divide-y" style={{ borderColor: colors.border }}>
             {files.map((file) => {
               const { icon: FileIcon, color } = getFileIcon(file.name);
 
@@ -297,7 +300,10 @@ export function FilesList({
                       >
                         {file.name}
                       </p>
-                      <div className="flex items-center gap-3 mt-0.5 text-xs" style={{ color: colors.textSecondary }}>
+                      <div
+                        className="flex items-center gap-3 mt-0.5 text-xs"
+                        style={{ color: colors.textSecondary }}
+                      >
                         <span>{file.size}</span>
                         <span>•</span>
                         <span>{file.uploadedAt}</span>
@@ -327,7 +333,9 @@ export function FilesList({
                       className="p-1.5 rounded transition-colors"
                       style={{
                         backgroundColor:
-                          downloadingId === file.id ? colors.accentLight : "transparent",
+                          downloadingId === file.id
+                            ? colors.accentLight
+                            : "transparent",
                         color: colors.primary,
                       }}
                       title="Download file"
@@ -343,7 +351,8 @@ export function FilesList({
                           color: colors.textSecondary,
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = colors.accentLight;
+                          e.currentTarget.style.backgroundColor =
+                            colors.accentLight;
                           e.currentTarget.style.color = colors.primary;
                         }}
                         onMouseLeave={(e) => {
@@ -359,12 +368,20 @@ export function FilesList({
                         onClick={() => handleCopyShare(file.id, file.shareUrl)}
                         className="p-1.5 rounded transition-colors"
                         style={{
-                          backgroundColor: copiedId === file.id ? "rgba(34, 197, 94, 0.15)" : "transparent",
-                          color: copiedId === file.id ? "#22C55E" : colors.primary,
+                          backgroundColor:
+                            copiedId === file.id
+                              ? "rgba(34, 197, 94, 0.15)"
+                              : "transparent",
+                          color:
+                            copiedId === file.id ? "#22C55E" : colors.primary,
                         }}
                         title="Copy share link"
                       >
-                        {copiedId === file.id ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
+                        {copiedId === file.id ? (
+                          <Check className="w-4 h-4" />
+                        ) : (
+                          <Share2 className="w-4 h-4" />
+                        )}
                       </button>
                     )}
 
@@ -379,7 +396,8 @@ export function FilesList({
                         color: "#EF4444",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.15)";
+                        e.currentTarget.style.backgroundColor =
+                          "rgba(239, 68, 68, 0.15)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "transparent";
